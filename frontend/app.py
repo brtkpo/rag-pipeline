@@ -1,3 +1,9 @@
+"""
+This file configures the page layout, initializes session states, 
+renders the sidebar for document management (upload/delete), and 
+handles the interactive chat interface for querying the LLM.
+"""
+
 import streamlit as st
 import api
 

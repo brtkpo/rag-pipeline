@@ -30,6 +30,7 @@ services:
         - "8501:8501"
       environment:
         - API_URL=http://backend:8000
+        - STREAMLIT_THEME_BASE=dark
       volumes:               
       - ./frontend:/app/frontend
       depends_on:
