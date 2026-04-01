@@ -1,7 +1,8 @@
+import os
 import requests
 import streamlit as st
 
-API_URL = "http://backend:8000"
+API_URL = os.getenv("API_URL", "http://localhost:8000")
 
 def upload_file(uploaded_file):
     files = {"file": (uploaded_file.name, uploaded_file.getvalue(), "application/pdf")}

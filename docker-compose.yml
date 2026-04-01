@@ -5,27 +5,32 @@ services:
     ports:
       - "6333:6333" 
     volumes:
-      - ./qdrant_storage:/qdrant/storage:z 
+      - ./qdrant_storage:/qdrant/storage
     restart: unless-stopped
     
   backend:
     build: .
     container_name: local_backend
-    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000
+    command: uvicorn backend.main:app --host 0.0.0.0 --port 8000 --reload
     ports:
       - "8000:8000"
     env_file:
       - .env
-    volumes:               
+    volumes:
       - ./uploads:/app/uploads
+      - ./backend:/app/backend
     depends_on:
       - qdrant
 
   frontend:
       build: .
       container_name: local_frontend
-      command: streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0
+      command: streamlit run frontend/app.py --server.port 8501 --server.address 0.0.0.0 --server.runOnSave true
       ports:
         - "8501:8501"
+      environment:
+        - API_URL=http://backend:8000
+      volumes:               
+      - ./frontend:/app/frontend
       depends_on:
         - backend
